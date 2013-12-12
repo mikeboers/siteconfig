@@ -8,7 +8,7 @@ setup(
     description='Configuration of Fluent Image processes.',
     url='http://github.com/mikeboers/ficonfig',
     
-    py_modules=['ficonfig'],
+    packages=['ficonfig'],
     
     author='Mike Boers',
     author_email='ficonfig@mikeboers.com',
@@ -16,7 +16,7 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'ficonfig = ficonfig.commmands.main:main',
+            'ficonfig = ficonfig.commands.main:main',
         ],
     },
 
