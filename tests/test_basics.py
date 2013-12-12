@@ -11,3 +11,6 @@ class TestBasics(TestCase):
         for name in 'A', 'B', 'C':
             self.assertEqual('True', run('ficonfig get LOADED_%s' % name).strip())
 
+    def test_shell_get_default(self):
+        self.assertEqual('default', run('ficonfig get DOES_NOT_EXIST default').strip())
+
