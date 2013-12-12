@@ -31,6 +31,7 @@ def command(*args, **kwargs):
 # Register the commands.
 from . import get
 from . import list as list_
+from . import host_string
 
 
 def main():
