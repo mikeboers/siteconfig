@@ -1,5 +1,4 @@
-
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     
@@ -8,7 +7,7 @@ setup(
     description='Configuration of Fluent Image processes.',
     url='http://github.com/mikeboers/ficonfig',
     
-    packages=['ficonfig'],
+    packages=find_packages(exclude=['tests', 'tests.*']),
     
     author='Mike Boers',
     author_email='ficonfig@mikeboers.com',
