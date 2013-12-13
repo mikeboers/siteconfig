@@ -72,5 +72,32 @@ class Config(dict):
 
         self.update(namespace)
 
+    def host_string(self, base_key, user=True, password=True, port=True):
+
+        base = base_key.rstrip('_') + '_'
+
+        # If it is set directly, use that.
+        full = self.get(base + 'HOSTSTRING')
+        if full is not None:
+            return full
+
+        # Let this KeyError raise through.
+        host = self[base + 'HOST']
+
+        if port:
+            port = self.get(base + 'PORT')
+            if port is not None:
+                host = '%s:%s' % (host, port)
+
+        if user:
+            user = self.get(base + 'USER')
+            if user is not None:
+                if password:
+                    password = self.get(base + 'PASSWORD')
+                    if password is not None:
+                        user = '%s:%s' % (user, password)
+                host = '%s@%s' % (user, host)
+
+        return host
 
 

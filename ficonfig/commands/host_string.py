@@ -4,6 +4,7 @@ from .main import command, argument
 
 @command(
     argument('base', nargs=1),
+    argument('-n', '--no-newline', action='store_true', help="don't print trailing newline"),
     argument('--no-user', action='store_true'),
     argument('--no-password', action='store_true'),
     argument('--no-port', action='store_true'),
@@ -12,33 +13,15 @@ from .main import command, argument
 )
 def host_string(args, config):
 
-    base = args.base[0].rstrip('_') + '_'
-
-    # If it is set directly, use that.
-    full = config.get(base + 'HOSTSTRING')
-    if full is not None:
-        print full
-        return
-
     try:
-        host = config[base + 'HOST']
+        value = config.host_string(
+            args.base[0],
+            user=not args.no_user,
+            password=not args.no_password,
+            port=not args.no_port,
+        )
     except KeyError as e:
         print >> sys.stderr, 'missing', e.args[0]
-        exit(1)
+        return 1
 
-    if not args.no_port:
-        port = config.get(base + 'PORT')
-        if port is not None:
-            host = '%s:%s' % (host, port)
-
-    if not args.no_user:
-        user = config.get(base + 'USER')
-        if user is not None:
-            if not args.no_password:
-                password = config.get(base + 'PASSWORD')
-                if password is not None:
-                    user = '%s:%s' % (user, password)
-            host = '%s@%s' % (user, host)
-
-    print host
-
+    sys.stdout.write(value + ('' if args.no_newline else '\n'))
