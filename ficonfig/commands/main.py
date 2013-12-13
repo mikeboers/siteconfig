@@ -35,7 +35,5 @@ from . import host_string
 
 
 def main():
-
     args = parser.parse_args()
-    args.func(args, config)
-
+    exit(args.func(args, config) or 0)
