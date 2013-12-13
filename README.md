@@ -11,6 +11,8 @@ Config Files
 
 By default, we look within `~offload/fidata` for `*.py` files (to execute as Python) or `*.js` files. All files found are loaded into a common namespace, and availible on the `ficonfig` package, or within the `ficonfig.config` dict.
 
+Environment variables with a `FICONFIG_` prefix will be pulled in as well.
+
 
 On Uppercase
 ------------

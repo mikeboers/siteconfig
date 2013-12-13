@@ -10,8 +10,9 @@ class Config(dict):
     @classmethod
     def from_environ(cls, *args, **kwargs):
         self = cls()
-        self.scan_environ(*args, **kwargs)
+        self.scan_envvar(*args, **kwargs)
         self.process()
+        self.import_environ()
         return self
 
     def __init__(self):
@@ -19,10 +20,15 @@ class Config(dict):
         self.file_paths = []
         self.processed = set()
 
-    def scan_environ(self, var_name='FICONFIG', default='/home/offload/ficonfig'):
+    def scan_envvar(self, var_name='FICONFIG', default='/home/offload/ficonfig'):
         self.dir_paths.extend(
             os.environ.get(var_name, default).split(':')
         )
+
+    def import_environ(self, prefix='FICONFIG_'):
+        for k, v in os.environ.iteritems():
+            if k.startswith(prefix) and k.isupper():
+                self[k[len(prefix):]] = v
 
     def process(self):
 
