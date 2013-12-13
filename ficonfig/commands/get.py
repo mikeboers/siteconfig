@@ -3,7 +3,7 @@ from .main import command, argument
 
 @command(
     argument('-n', '--no-newline', action='store_true', help="don't print trailing newline"),
-    argument('key', nargs=1),
+    argument('key', type=str.upper, nargs=1),
     argument('default', nargs='?', default=None, help="default value if `key` isn't set"),
     name='get',
     help='lookup a single key',

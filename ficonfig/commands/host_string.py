@@ -3,7 +3,7 @@ import sys
 from .main import command, argument
 
 @command(
-    argument('base', nargs=1),
+    argument('base', type=str.upper, nargs=1),
     argument('-n', '--no-newline', action='store_true', help="don't print trailing newline"),
     argument('--no-user', action='store_true'),
     argument('--no-password', action='store_true'),
