@@ -52,6 +52,10 @@ ALICE_PORT = 1234
 $ ficonfig get ALICE_HOST
 alice.com
 
+# Keys are case and symbol insensitive from the shell:
+$ ficonfig get alice.host
+alice.com
+
 $ ficonfig host-string ALICE
 alice:apass@alice.com:1234
 

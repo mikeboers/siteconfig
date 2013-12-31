@@ -1,4 +1,5 @@
 from .main import command, argument
+from ..utils import shell_quote
 
 @command(
     argument('-s', '--shell', action='store_true', help='format for a shell'),
@@ -10,7 +11,7 @@ def list_(args, config):
 
     for k, v in sorted(config.iteritems()):
         if args.shell:
-            print '%s%s="%s"' % (args.prefix, k, str(v).replace('"',  '\\"'))
+            print '%s%s=%s' % (args.prefix, k, shell_quote(v))
         else:
             print '%s = %r' % (k, v)
 

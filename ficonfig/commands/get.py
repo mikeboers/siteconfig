@@ -1,9 +1,11 @@
 import sys
+
 from .main import command, argument
+from ..utils import normalize_key
 
 @command(
     argument('-n', '--no-newline', action='store_true', help="don't print trailing newline"),
-    argument('key', type=str.upper, nargs=1),
+    argument('key', type=normalize_key, nargs=1),
     argument('default', nargs='?', default=None, help="default value if `key` isn't set"),
     name='get',
     help='lookup a single key',
