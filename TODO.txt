@@ -1,0 +1,8 @@
+
+- `ficonfig ascp <ascp options> <base>`
+
+- `ficonfig flags <command> --defaults='xxx' --add='xxx' --replace='xxx' <base>` somewhere we define the options for various commands, and this interpolates them for us, starting with the defaults, then the ones under {base}_{command}_FLAGS, then the overrides.
+
+- `ficonfig set <name> <value>` -> zzz_ficonfig.py
+
+- `ficonfig sync [<host> ...]` -> rsync to the other hosts
