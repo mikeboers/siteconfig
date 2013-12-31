@@ -29,9 +29,10 @@ def command(*args, **kwargs):
 
 
 # Register the commands.
-from . import get
-from . import list as list_
-from . import host_string
+import ficonfig.commands.basic_auth
+import ficonfig.commands.get
+import ficonfig.commands.host_string
+import ficonfig.commands.list
 
 
 def main():
