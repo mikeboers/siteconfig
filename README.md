@@ -29,40 +29,27 @@ From the shell, a `ficonfig` command is provided to output requested data. E.g.:
 
 ~~~bash
 
-$ ficonfig --help
-usage: ficonfig [-h] {get,list,host-string} ...
 
-positional arguments:
-  {get,list,host-string}
-                        sub-command help
-    get                 lookup a single key
-    list                list all key-value pairs
-    host-string         construct user@host:port from a base
-
-optional arguments:
-  -h, --help            show this help message and exit
-
-
-$ ficonfig list
+$ ficonfig --list
 ALICE_HOST = 'alice.com'
 ALICE_USERNAME = 'alice'
 ALICE_PASSWORD = 'apass'
 ALICE_PORT = 1234
 
-$ ficonfig get ALICE_HOST
+$ ficonfig ALICE_HOST
 alice.com
 
 # Keys are case and symbol insensitive from the shell:
-$ ficonfig get alice.host
+$ ficonfig alice.host
 alice.com
 
-$ ficonfig basic-auth ALICE
+$ ficonfig --basic-auth ALICE
 alice:apass
 
-$ ficonfig host-string ALICE
+$ ficonfig --host-string ALICE
 alice:apass@alice.com:1234
 
-$ ficonfig host-string --no-password ALICE
+$ ficonfig --host-string --no-password ALICE
 alice@alice.com:1234
 
 ~~~

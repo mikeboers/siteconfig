@@ -1,31 +1,29 @@
 import sys
 
-from .main import command, argument
-from ..utils import normalize_key
+from .main import command, argument, format
+
 
 @command(
-    argument('-n', '--no-newline', action='store_true', help="don't print trailing newline"),
-    argument('-e', '--eval', action='store_true', help="eval as a Python expression"),
-    argument('key', nargs=1),
-    argument('default', nargs='?', default=None, help="default value if `key` isn't set"),
+    argument('key', nargs='*'),
+    argument('-d', '--default', default=None, help="default value if `key` isn't set"),
     name='get',
     help='lookup a single key',
 )
 def get_(args, config):
 
-    if args.eval:
-        value = eval(args.key[0], config)
+    values = []
 
-    else:
-        key = normalize_key(args.key[0])
-        pattern = '{%s}' % key
-        try:
-            value = pattern.format(**config)
-        except KeyError:
-            value = None
+    for key in args.key:
+        value = config.get(key)
         value = value if value is not None else args.default
+        if value is None:
+            return 1
+        values.append(value)
 
-    if value is None:
+    formatted = format(args, values, config)
+    if formatted is not None:
+        sys.stdout.write(formatted + args.endl)
+    elif values:
+        sys.stdout.write(' '.join(str(v) for v in values) + args.endl)
+    else:
         return 1
-
-    sys.stdout.write(str(value) + ('' if args.no_newline else '\n'))
