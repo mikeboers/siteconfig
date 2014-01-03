@@ -7,7 +7,7 @@ from .main import command, argument
 from ..utils import normalize_key
 
 @command(
-    argument('-n', '--dry-run'),
+    argument('-n', '--dry-run', action='store_true'),
     name='sync',
     help='transfer to the other host',
 )
@@ -24,7 +24,7 @@ def get_(args, config):
 
     remote_ip = local_ip[:-1] + '2'
 
-    command = ['rsync', '-avx', '~offload/ficonfig/', 'offload@%s:ficonfig/' % remote_ip]
+    command = ['rsync', '-avx', '/home/offload/ficonfig/', 'offload@%s:ficonfig/' % remote_ip]
     print ' '.join(command)
 
     if args.dry_run:
