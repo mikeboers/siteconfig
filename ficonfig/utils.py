@@ -2,7 +2,9 @@ import re
 
 
 def normalize_key(input_):
-    return re.sub(r'\W+', '_', input_).upper()
+    input_ = re.sub(r'[^\w\[\]]+', '_', input_)
+    input_ = re.sub(r'^(\w+)', lambda m: m.group(1).upper(), input_)
+    return input_
 
 
 def shell_escape(input_):

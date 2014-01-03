@@ -11,8 +11,14 @@ from ..utils import normalize_key
     help='lookup a single key',
 )
 def get_(args, config):
-    
-    value = config.get(args.key[0])
+
+    pattern = '{%s}' % args.key[0]
+    try:
+        value = pattern.format(**config)
+    except KeyError:
+        raise
+        value = None
+
     value = value if value is not None else args.default
 
     if value is None:
