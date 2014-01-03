@@ -17,7 +17,7 @@ Environment variables with a `FICONFIG_` prefix will be pulled in as well.
 On Uppercase
 ------------
 
-Configuration keys **MUST** be uppercase. This is so that (1) there is a trivial seperation bettween variables used for control flow or intervedia values during Python execution, and (2) because they read more like constants.
+Configuration keys **MUST** be uppercase. This is so that (1) there is a trivial seperation bettween variables used for control flow or intermediate values during Python execution, and (2) because they read more like constants.
 
 
 API
@@ -55,6 +55,9 @@ alice.com
 # Keys are case and symbol insensitive from the shell:
 $ ficonfig get alice.host
 alice.com
+
+$ ficonfig basic-auth ALICE
+alice:apass
 
 $ ficonfig host-string ALICE
 alice:apass@alice.com:1234
