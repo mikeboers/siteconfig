@@ -16,7 +16,6 @@ def get_(args, config):
     try:
         value = pattern.format(**config)
     except KeyError:
-        raise
         value = None
 
     value = value if value is not None else args.default
