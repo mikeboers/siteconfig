@@ -33,6 +33,7 @@ import ficonfig.commands.basic_auth
 import ficonfig.commands.get
 import ficonfig.commands.host_string
 import ficonfig.commands.list
+import ficonfig.commands.sync
 
 
 def main():
