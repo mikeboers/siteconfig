@@ -17,3 +17,5 @@ class TestBasics(TestCase):
     def test_shell_get_default(self):
         self.assertEqual('default', run('ficonfig get DOES_NOT_EXIST default').strip())
 
+    def test_shell_get_eval(self):
+        self.assertEqual('COM', run('''ficonfig get --eval 'ALICE_HOST.split(".")[-1].upper()' ''').strip())
