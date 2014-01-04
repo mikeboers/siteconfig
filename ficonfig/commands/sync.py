@@ -7,19 +7,19 @@ from .main import command, argument
 from ..utils import normalize_key
 
 @command(
-    argument('-n', '--dry-run', action='store_true'),
+    argument('--dry-run', action='store_true'),
     name='sync',
     help='transfer to the other host',
 )
 def get_(args, config):
 
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(("google.com", 80))
-    local_ip = s.getsockname()[0]
-    s.close()
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.connect(("8.8.8.8", 80))
+    local_ip = sock.getsockname()[0]
+    sock.close()
 
     if local_ip.split('.')[-1] != '221':
-        print 'This is not the first machine.'
+        print 'Please use from the primary server.'
         return 1
 
     remote_ip = local_ip[:-1] + '2'
