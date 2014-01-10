@@ -1,8 +1,12 @@
 import errno
 import json
+import logging
 import os
 import traceback
 import warnings
+
+
+log = logging.getLogger('ficonfig')
 
 
 class Config(dict):
@@ -20,10 +24,21 @@ class Config(dict):
         self.file_paths = []
         self.processed = set()
 
-    def scan_envvar(self, var_name='FICONFIG', default='/home/offload/ficonfig'):
-        self.dir_paths.extend(
-            os.environ.get(var_name, default).split(':')
-        )
+    def scan_envvar(self, var_name='FICONFIG', default=None):
+
+        path = os.environ.get(var_name, default)
+        if path is None:
+            fi_tools = os.environ.get("FI_TOOLS")
+
+             # Really fallback here.
+            if fi_tools is None:
+                log.warning('FI_TOOLS is not set')
+                fi_tools = os.path.abspath(os.path.join(__file__, '..', '..', '..'))
+
+            path = os.path.join(os.path.dirname(fi_tools), 'ficonfig')
+
+        log.log(5, 'reading from %s' % path)
+        self.dir_paths.extend(path.split(':'))
 
     def import_environ(self, prefix='FICONFIG_'):
         for k, v in os.environ.iteritems():
@@ -61,6 +76,8 @@ class Config(dict):
             if file_path in self.processed:
                 continue
             self.processed.add(file_path)
+
+            log.log(5, 'processing %s' % file_path)
 
             ext = os.path.splitext(file_path)[1]
             if ext == '.py':
