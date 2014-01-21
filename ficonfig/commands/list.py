@@ -9,6 +9,8 @@ from ..utils import shell_quote
 def list_(args, config):
 
     for k, v in sorted(config.iteritems()):
+    	if v is None:
+    		continue
         if args.shell:
             print '%s%s=%s' % (args.prefix if args.prefix is not None else 'FICONFIG_', k, shell_quote(v))
         else:

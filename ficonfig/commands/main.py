@@ -84,6 +84,7 @@ import ficonfig.commands.eval
 import ficonfig.commands.get
 import ficonfig.commands.host_string
 import ficonfig.commands.list
+import ficonfig.commands.set
 import ficonfig.commands.sync
 
 
@@ -91,8 +92,9 @@ import ficonfig.commands.sync
 def main():
 
     opts, leftovers = parser.parse_known_args()
-    action_name = opts.action or 'get'
+    action_name = opts.action or ('get' if leftovers else None)
     action_spec = _commands.get(action_name)
+
     if not action_spec:
         parser.print_usage()
         exit(1)
