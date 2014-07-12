@@ -3,6 +3,29 @@
 
 - `ficonfig flags <command> --defaults='xxx' --add='xxx' --replace='xxx' <base>` somewhere we define the options for various commands, and this interpolates them for us, starting with the defaults, then the ones under {base}_{command}_FLAGS, then the overrides.
 
-- `ficonfig set <name> <value>` -> zzz_ficonfig.py
+- "ficonfig_sources" entry_point, which merges the names into the basenames for
+  the dir sources, then evaluates them all in order.
 
-- `ficonfig sync [<host> ...]` -> rsync to the other hosts
+- lazy evaluation of config: the Config object should contain a list of config
+  sources, which are evaluated as nessesary. When asked for a specific key, it
+  walks from the front to the end of the list. When asked for everything, it
+  starts at the top and moves to the bottom of the list keeping a set of keys
+  that it reported on.
+
+  ConfigSource API would have a load() method which should return the data, and
+  the .data property would have logic to call that the first time.
+
+- ficonfig.app.xxx:main functions for wherever there is a driver/hook/plugin
+  what we want to specify via the ficonfig system. Then aque could look for
+  drivers in a "aque_brokers" entry_point, where ficonfig would provide "ficonfig",
+  which simply loads from the more standard aque brokers.
+
+- if this seems like a nice site configuration tool in general, then it should
+  be renamed such. Candidates include:
+    - siteconfig
+    - sitevars
+    x pyconf (taken on PyPI)
+
+  For a transition, still respond to "FICONFIG" names/prefixes.
+
+- don't load everything in ficonfig/__init__.py; make it lazy
