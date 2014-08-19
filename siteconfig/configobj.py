@@ -24,26 +24,37 @@ class Config(dict):
         self.file_paths = []
         self.processed = set()
 
-    def scan_envvar(self, var_name='FICONFIG', default=None):
+    def scan_envvar(self, var_name=None, default=None):
 
-        path = os.environ.get(var_name, default)
-        if path is None:
-            fi_tools = os.environ.get("FI_TOOLS")
+        # Deal with falling back onto hardcoded paths.
+        if var_name is None:
+            path = os.environ.get('SITECONFIG')
+            if path is None:
+                path = os.environ.get('FICONFIG')
+            if path is None:
+                path = os.environ.get('FI_TOOLS')
+                path = os.path.join(path, 'ficonfig') if path is not None else None
 
-             # Really fallback here.
-            if fi_tools is None:
-                log.warning('FI_TOOLS is not set')
-                fi_tools = os.path.abspath(os.path.join(__file__, '..', '..', '..'))
+        else:
+            path = os.environ.get(var_name)
 
-            path = os.path.join(os.path.dirname(fi_tools), 'ficonfig')
+        path = default if path is None else path
 
-        log.log(5, 'reading from %s' % path)
-        self.dir_paths.extend(path.split(':'))
+        if path is not None:
+            log.log(5, 'reading from %s' % path)
+            self.dir_paths.extend(path.split(':'))
 
-    def import_environ(self, prefix='FICONFIG_'):
+    def import_environ(self, prefix=None):
+        if prefix is None:
+            prefixes = ('SITECONFIG_', 'FICONFIG_')
+        else:
+            prefixes = (prefix, )
         for k, v in os.environ.iteritems():
-            if k.startswith(prefix) and k.isupper():
-                self[k[len(prefix):]] = v
+            if not k.isupper():
+                continue
+            for prefix in prefixes:
+                if k.startswith(prefix):
+                    self[k[len(prefix):]] = v
 
     def process(self):
 

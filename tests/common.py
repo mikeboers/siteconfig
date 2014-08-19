@@ -15,6 +15,8 @@ config.dir_paths.append(example_path)
 config.process()
 
 
-def run(command):
-    return check_output(command, shell=True)
+def run(command, env={}):
+    environ = os.environ.copy()
+    environ.update(env)
+    return check_output(command, shell=True, env=environ)
 

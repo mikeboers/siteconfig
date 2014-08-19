@@ -3,6 +3,10 @@ from common import *
 
 class TestBasics(TestCase):
 
+    def test_envvars(self):
+        self.assertTrue('aaa', run('siteconfig KEY', env={'SITECONFIG_KEY': 'aaa'}))
+        self.assertTrue('bbb', run('siteconfig KEY', env={'FICONFIG_KEY': 'bbb'}))
+
     def test_example_loaded_python(self):
         for name in 'A', 'B', 'C':
             self.assertTrue(config.get('LOADED_%s' % name))
