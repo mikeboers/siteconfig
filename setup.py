@@ -2,20 +2,21 @@ from setuptools import setup, find_packages
 
 setup(
     
-    name='ficonfig',
+    name='siteconfig',
     version='0.1.0',
-    description='Configuration of Fluent Image processes.',
-    url='http://github.com/mikeboers/ficonfig',
+    description='Configuration of Python processes.',
+    url='http://github.com/mikeboers/siteconfig',
     
     packages=find_packages(exclude=['tests', 'tests.*']),
     
     author='Mike Boers',
-    author_email='ficonfig@mikeboers.com',
+    author_email='siteconfig@mikeboers.com',
     license='BSD-3',
 
     entry_points={
         'console_scripts': [
-            'ficonfig = ficonfig.commands.main:main',
+            'ficonfig = siteconfig.commands.main:main',
+            'siteconfig = siteconfig.commands.main:main',
         ],
     },
 

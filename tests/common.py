@@ -3,7 +3,7 @@ from subprocess import check_output
 from unittest import TestCase
 
 
-from ficonfig import config
+from siteconfig import config
 
 example_path = os.path.abspath(os.path.join(__file__, '..', 'example_config'))
 

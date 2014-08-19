@@ -79,13 +79,13 @@ def format(opts, args, kwargs):
 
 
 # Register the commands.
-import ficonfig.commands.basic_auth
-import ficonfig.commands.eval
-import ficonfig.commands.get
-import ficonfig.commands.host_string
-import ficonfig.commands.list
-import ficonfig.commands.set
-import ficonfig.commands.sync
+import siteconfig.commands.basic_auth
+import siteconfig.commands.eval
+import siteconfig.commands.get
+import siteconfig.commands.host_string
+import siteconfig.commands.list
+import siteconfig.commands.set
+import siteconfig.commands.sync
 
 
 
