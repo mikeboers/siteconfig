@@ -7,6 +7,7 @@ setup(
     description='Configuration of Python processes.',
     url='http://github.com/mikeboers/siteconfig',
     
+    pymodules=['ficonfig.py'],
     packages=find_packages(exclude=['tests', 'tests.*']),
     
     author='Mike Boers',
