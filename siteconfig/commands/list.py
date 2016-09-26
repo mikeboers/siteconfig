@@ -12,7 +12,7 @@ def list_(args, config):
     	if v is None:
     		continue
         if args.shell:
-            print '%s%s=%s' % (args.prefix if args.prefix is not None else 'SITECONFIG_', k, shell_quote(v))
+            print '%s%s=%s' % (args.prefix if args.prefix is not None else 'SITECONFIG_', k, shell_quote(repr(v)))
         else:
             print '%s = %r' % (k, v)
 

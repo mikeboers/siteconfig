@@ -1,3 +1,4 @@
+import ast
 import errno
 import json
 import logging
@@ -38,6 +39,11 @@ class Config(dict):
                 continue
             if not k.startswith(prefix):
                 continue
+
+            try:
+                v = ast.literal_eval(v)
+            except (ValueError, SyntaxError):
+                pass
             
             self[k[len(prefix):]] = v
 
@@ -91,6 +97,38 @@ class Config(dict):
             namespace = dict((k, v) for k, v in namespace.iteritems() if k.isupper())
 
         self.update(namespace)
+
+    def get_bool(self, key, default=None, strict=True):
+        
+        value = self.get(key)
+        if value is None:
+            return default
+
+        if isinstance(value, bool):
+            return value
+
+        if isinstance(value, int) and value in (0, 1):
+            return bool(value)
+
+        if isinstance(value, basestring):
+            adapted = {
+                'true': True,
+                't': True,
+                'yes': True,
+                'y': True,
+                'false': False,
+                'f': False,
+                'no': False,
+                'n': False,
+                '': False,
+            }.get(value.lower())
+            if adapted is not None:
+                return adapted
+
+        if strict:
+            raise ValueError('non-obvious boolean value', value)
+        else:
+            return bool(value)
 
     def host_string(self, base_key, user=True, password=True, port=True):
 
