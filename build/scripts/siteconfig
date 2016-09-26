@@ -1,0 +1,10 @@
+#!/usr/bin/env VEE=/usr/local/vee VEE_PYTHON= dev python
+# EASY-INSTALL-ENTRY-SCRIPT: 'siteconfig==0.1.0','console_scripts','siteconfig'
+__requires__ = 'siteconfig==0.1.0'
+import sys
+from pkg_resources import load_entry_point
+
+if __name__ == '__main__':
+    sys.exit(
+        load_entry_point('siteconfig==0.1.0', 'console_scripts', 'siteconfig')()
+    )

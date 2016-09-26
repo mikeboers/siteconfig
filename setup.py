@@ -7,7 +7,6 @@ setup(
     description='Configuration of Python processes.',
     url='http://github.com/mikeboers/siteconfig',
     
-    py_modules=['ficonfig'],
     packages=find_packages(exclude=['tests', 'tests.*']),
     
     author='Mike Boers',
@@ -16,7 +15,6 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'ficonfig = siteconfig.commands.main:main',
             'siteconfig = siteconfig.commands.main:main',
         ],
     },

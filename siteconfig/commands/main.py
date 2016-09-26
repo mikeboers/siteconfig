@@ -85,13 +85,13 @@ import siteconfig.commands.get
 import siteconfig.commands.host_string
 import siteconfig.commands.list
 import siteconfig.commands.set
-import siteconfig.commands.sync
 
 
 
 def main():
 
     opts, leftovers = parser.parse_known_args()
+
     action_name = opts.action or ('get' if leftovers else None)
     action_spec = _commands.get(action_name)
 

@@ -17,7 +17,7 @@ from .main import command, argument, format
 def set(args, config):
 
     if not os.path.isabs(args.file) and len(config.dir_paths) != 1:
-        print >> sys.stderr, 'ficonfig: config from multiple directories; specify absolute --file'
+        print >> sys.stderr, 'siteconfig: config from multiple directories; specify absolute --file'
         exit(1)
 
     value = args.value
