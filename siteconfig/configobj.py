@@ -47,8 +47,10 @@ class Config(dict):
                 continue
             if not k.startswith(prefix):
                 continue
-
+            
             k = k[len(prefix):].lstrip('_')
+            if not k:
+                continue
 
             try:
                 v = ast.literal_eval(v)
