@@ -7,15 +7,19 @@ import traceback
 import warnings
 
 
-log = logging.getLogger('ficonfig')
+log = logging.getLogger('siteconfig')
+
+
+DEFAULT_ENVVAR_NAME = 'SITECONFIG'
 
 
 class Config(dict):
 
     @classmethod
-    def from_environ(cls, *args, **kwargs):
+    def from_environ(cls, envvar_name=DEFAULT_ENVVAR_NAME):
         self = cls()
-        self.scan_envvar(*args, **kwargs)
+        self.envvar_name = envvar_name
+        self.scan_envvar()
         self.process()
         self.import_environ()
         return self
@@ -25,14 +29,18 @@ class Config(dict):
         self.file_paths = []
         self.processed = set()
 
-    def scan_envvar(self, var_name='SITECONFIG', default=None):
-        path = os.environ.get(var_name)
+    def scan_envvar(self, envvar_name=None):
+        path = os.environ.get(envvar_name or self.envvar_name)
         path = default if path is None else path
         if path is not None:
             log.log(5, 'reading from %s' % path)
             self.dir_paths.extend(path.split(':'))
 
-    def import_environ(self, prefix='SITECONFIG_'):
+    def import_environ(self, prefix=None):
+
+        if prefix is None:
+            prefix = self.envvar_name
+
         for k, v in os.environ.iteritems():
 
             if not k.isupper():
@@ -40,12 +48,14 @@ class Config(dict):
             if not k.startswith(prefix):
                 continue
 
+            k = k[len(prefix):].lstrip('_')
+
             try:
                 v = ast.literal_eval(v)
             except (ValueError, SyntaxError):
                 pass
             
-            self[k[len(prefix):]] = v
+            self[k] = v
 
     def process(self):
 
@@ -71,7 +81,8 @@ class Config(dict):
         new_file_paths.sort(key=os.path.basename)
         self.file_paths.extend(new_file_paths)
 
-        namespace = {}
+        namespace = self.copy()
+
         for file_path in new_file_paths:
 
             # Only process this once.
@@ -84,7 +95,12 @@ class Config(dict):
             ext = os.path.splitext(file_path)[1]
             if ext == '.py':
                 try:
-                    execfile(file_path, namespace)
+                    helpers = {
+                        'config': namespace,
+                        'get': namespace.get,
+                        'setdefault': namespace.setdefault,
+                    }
+                    execfile(file_path, helpers, namespace)
                 except Exception as e:
                     warnings.warn('error in Python config:\n%s' % traceback.format_exc())
 
