@@ -31,7 +31,6 @@ class Config(dict):
 
     def scan_envvar(self, envvar_name=None):
         path = os.environ.get(envvar_name or self.envvar_name)
-        path = default if path is None else path
         if path is not None:
             log.log(5, 'reading from %s' % path)
             self.dir_paths.extend(path.split(':'))
